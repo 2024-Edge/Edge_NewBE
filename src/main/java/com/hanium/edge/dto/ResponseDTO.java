@@ -1,11 +1,9 @@
 package com.hanium.edge.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class ResponseDTO {
     private int status;
