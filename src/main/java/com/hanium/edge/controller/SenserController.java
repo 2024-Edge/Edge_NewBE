@@ -1,6 +1,7 @@
+/*
 package com.hanium.edge.controller;
 
-import com.hanium.edge.service.SensorService;
+import com.hanium.edge.service.DustService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,17 +15,18 @@ import java.util.Map;
 public class SenserController {
 
     @Autowired
-    private SensorService sensorService;
+    private DustService dustService;
 
     @GetMapping("/dust")
     public Map<String, Object> getDustDensity() {
         Map<String, Object> response = new HashMap<>();
-        response.put("dustDensity", sensorService.getDustDensity());
+        response.put("dustDensity", dustService.getDustDensity());
         return response;
     }
 
     @PostMapping("/dust")
     public void updateDustDensity(@RequestParam float dustDensity) {
-        sensorService.updateDustDensity(dustDensity);
+        dustService.updateDustDensity(dustDensity);
     }
 }
+*/

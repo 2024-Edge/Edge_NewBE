@@ -14,10 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DustEntity {
     @Id
-    private Long id = 1L;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private float dust;
-
-    public DustEntity(float dust) {
-        this.dust = dust;
-    }
 }
+

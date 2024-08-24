@@ -21,11 +21,7 @@ public class HumidityService {
     }
 
     public void setTemperature(float temperature) {
-        HumidityEntity humidityEntity = humidityRepository.findById(1L).orElseGet(() -> {
-            HumidityEntity newEntity = new HumidityEntity();
-            newEntity.setId(1L);
-            return newEntity;
-        });
+        HumidityEntity humidityEntity = humidityRepository.findById(1L).orElse(new HumidityEntity());
         humidityEntity.setTemperature(temperature);
         humidityRepository.save(humidityEntity);
     }
