@@ -1,32 +1,31 @@
 package com.hanium.edge.service;
 
-import com.hanium.edge.model.User;
+import com.hanium.edge.entity.UserEntity;
 import com.hanium.edge.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public User registerUser(String username, String password, String name) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setName(name); // 추가된 부분
-        return userRepository.save(user);
+    public UserEntity registerUser(String username, String password, String name) {
+        UserEntity userEntity = UserEntity.builder()
+                .username(username)
+                .password(bCryptPasswordEncoder.encode(password))
+                .name(name)
+                .build();
+        return userRepository.save(userEntity);
     }
 
-    public User loginUser(String username, String password) {
-        User user = userRepository.findByUsername(username).orElse(null);
-        if (user != null && bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            return user;
+    public UserEntity loginUser(String username, String password) {
+        UserEntity userEntity = userRepository.findByUsername(username).orElse(null);
+        if (userEntity != null && bCryptPasswordEncoder.matches(password, userEntity.getPassword())) {
+            return userEntity;
         }
         return null;
     }
