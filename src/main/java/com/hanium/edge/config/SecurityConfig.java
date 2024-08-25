@@ -14,8 +14,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
-                .authorizeRequests(auth -> auth
-                        .requestMatchers("/api/users/register", "/api/users/login", "/bot/chat").permitAll()  // 회원가입과 로그인은 인증 없이 접근 가능
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/users/register", "/api/users/login", "/data", "/test").permitAll()  // 회원가입과 로그인은 인증 없이 접근 가능
                         .anyRequest().authenticated()
                 );
         return http.build();
