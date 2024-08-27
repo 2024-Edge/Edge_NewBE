@@ -19,7 +19,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO> registerUser(@RequestBody UserDTO userDTO) {
         UserEntity userEntity = userService.registerUser(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName());
-        ResponseDTO response = new ResponseDTO(HttpStatus.OK.value(), "User registered with ID: " + userEntity.getId());
+        ResponseDTO response = new ResponseDTO(HttpStatus.OK.value(), "회원가입된 유저의 ID: " + userEntity.getId());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
