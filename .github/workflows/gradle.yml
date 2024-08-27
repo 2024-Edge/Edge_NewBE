@@ -47,8 +47,9 @@ jobs:
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
           script: |
-            sudo docker rm -f $(docker ps -qa)
-            sudo docker stop $(docker ps -a -q)
+            sudo docker stop $(docker ps -q) || true
+            sudo docker rm -f $(docker ps -a -q) || true
             docker pull ${{ secrets.DOCKER_REPO }}
-            docker-compose up --build -d
+            sudo docker run -d --name edge-app -p 8080:8080 clara1201/edge
             sudo docker image prune -f
+      
