@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanium.edge.code.ErrorCode;
 import com.hanium.edge.code.SuccessCode;
 import com.hanium.edge.dto.CustomUserDetails;
+import com.hanium.edge.dto.LoginRequest;
 import com.hanium.edge.response.ErrorResponseDTO;
 import com.hanium.edge.response.ResponseDTO;
 import jakarta.servlet.FilterChain;
@@ -23,12 +24,21 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
+        // JSON 데이터로부터 LoginRequest 객체를 생성
+        LoginRequest loginRequest;
+        try {
+            loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Invalid login request", e);
+        }
+
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
 
         System.out.println(username);
 
@@ -44,7 +54,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String username = customUserDetails.getUsername();
 
-        // Role 정보를 제거하고 JWT 생성
+        // JWT 생성
         String accessToken = jwtUtil.createJwt("accessToken", username, 86400000L);
         String refreshToken = jwtUtil.createJwt("refreshToken", username, 86400000L);
 
@@ -54,10 +64,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         ResponseDTO<?> responseDTO = new ResponseDTO<>(SuccessCode.SUCCESS_LOGIN, null);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString(responseDTO);
         response.getWriter().write(jsonResponse);
-
     }
 
     @Override
@@ -68,7 +76,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         ErrorResponseDTO responseDTO = new ErrorResponseDTO(ErrorCode.USER_NOT_FOUND);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString(responseDTO);
         response.getWriter().write(jsonResponse);
     }
