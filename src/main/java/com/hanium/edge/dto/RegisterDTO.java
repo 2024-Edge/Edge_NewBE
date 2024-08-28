@@ -7,8 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterDTO {
-    // 닉네임
     private String username;
-    // 비밀번호
     private String password;
+    private String name;  // 닉네임 추가
 }

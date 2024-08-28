@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -83,5 +80,21 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(new ResponseDTO<>(SuccessCode.SUCCESS_REISSUE, null));
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<ResponseDTO> logout() {
+        userService.logout();
+        return ResponseEntity
+                .status(SuccessCode.SUCCESS_LOGOUT.getStatus().value())
+                .body(new ResponseDTO<>(SuccessCode.SUCCESS_LOGOUT, null));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDTO> deleteUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.deleteUser(username);
+        return ResponseEntity
+                .status(SuccessCode.SUCCESS_DELETE_USER.getStatus().value())
+                .body(new ResponseDTO<>(SuccessCode.SUCCESS_DELETE_USER, null));
     }
 }

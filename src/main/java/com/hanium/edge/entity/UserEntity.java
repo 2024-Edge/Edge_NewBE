@@ -14,16 +14,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity extends BaseEntity{
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // 닉네임
     private String username;
-    // 비밀번호
     private String password;
-
-
+    private String name;  // 닉네임 필드 추가
 }
