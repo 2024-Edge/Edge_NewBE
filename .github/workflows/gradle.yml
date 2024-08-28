@@ -50,6 +50,6 @@ jobs:
             sudo docker stop $(docker ps -q) || true
             sudo docker rm -f $(docker ps -a -q) || true
             docker pull ${{ secrets.DOCKER_REPO }}
-            sudo docker run -d --name edge-app -p 443:8080 ${{ secrets.DOCKER_REPO }}
+            sudo docker run -d --name edge-app -p 8080:8080 ${{ secrets.DOCKER_REPO }}
             sudo docker image prune -f
       
