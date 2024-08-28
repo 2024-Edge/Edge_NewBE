@@ -3,13 +3,11 @@ package com.hanium.edge.response;
 import com.hanium.edge.code.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 @Data
 public class ErrorResponseDTO {
-
-    private final LocalDateTime timestamp = LocalDateTime.now();
     private int status;
     private String error;
     private String code;
