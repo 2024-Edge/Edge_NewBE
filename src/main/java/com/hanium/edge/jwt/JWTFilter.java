@@ -3,7 +3,7 @@ package com.hanium.edge.jwt;
 import com.hanium.edge.code.ErrorCode;
 import com.hanium.edge.entity.UserEntity;
 import com.hanium.edge.util.TokenErrorResponse;
-import com.hanium.edge.dto.CustomUserDetails;
+import com.hanium.edge.dto.user.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

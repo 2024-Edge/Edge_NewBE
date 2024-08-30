@@ -2,8 +2,8 @@ package com.hanium.edge.controller;
 
 import com.hanium.edge.code.ErrorCode;
 import com.hanium.edge.code.SuccessCode;
-import com.hanium.edge.dto.RegisterDTO;
-import com.hanium.edge.dto.UserResponseDTO;
+import com.hanium.edge.dto.user.RegisterDTO;
+import com.hanium.edge.dto.user.UserResponseDTO;
 import com.hanium.edge.jwt.JWTUtil;
 import com.hanium.edge.response.ResponseDTO;
 import com.hanium.edge.service.UserService;

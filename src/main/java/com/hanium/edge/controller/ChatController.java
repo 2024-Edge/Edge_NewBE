@@ -1,7 +1,7 @@
 package com.hanium.edge.controller;
 
-import com.hanium.edge.dto.ChatRequestDTO;
-import com.hanium.edge.dto.ChatResponseDTO;
+import com.hanium.edge.dto.chat.ChatRequestDTO;
+import com.hanium.edge.dto.chat.ChatResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.hanium.edge.dto;
+package com.hanium.edge.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

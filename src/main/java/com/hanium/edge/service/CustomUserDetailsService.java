@@ -1,6 +1,6 @@
 package com.hanium.edge.service;
 
-import com.hanium.edge.dto.CustomUserDetails;
+import com.hanium.edge.dto.user.CustomUserDetails;
 import com.hanium.edge.entity.UserEntity;
 import com.hanium.edge.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

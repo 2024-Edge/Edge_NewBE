@@ -1,4 +1,4 @@
-package com.hanium.edge.dto;
+package com.hanium.edge.dto.chat;
 
 import lombok.Data;
 

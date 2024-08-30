@@ -1,9 +1,6 @@
 package com.hanium.edge.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,4 +14,8 @@ public class DustEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private float dust;
+
+    @ManyToOne // 다대일
+    @JoinColumn(name = "user_id", nullable = false) // 외래 키
+    private UserEntity user;
 }

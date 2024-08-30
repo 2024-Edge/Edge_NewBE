@@ -1,7 +1,7 @@
 package com.hanium.edge.service;
 
-import com.hanium.edge.dto.RegisterDTO;
-import com.hanium.edge.dto.UserResponseDTO;
+import com.hanium.edge.dto.user.RegisterDTO;
+import com.hanium.edge.dto.user.UserResponseDTO;
 import com.hanium.edge.entity.UserEntity;
 import com.hanium.edge.exception.DuplicateUsernameException;
 import com.hanium.edge.repository.UserRepository;
