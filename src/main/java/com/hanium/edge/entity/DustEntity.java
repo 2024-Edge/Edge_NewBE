@@ -15,7 +15,7 @@ public class DustEntity {
     private Long id;
     private float dust;
 
-    @ManyToOne // 다대일
-    @JoinColumn(name = "user_id", nullable = false) // 외래 키
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 }
