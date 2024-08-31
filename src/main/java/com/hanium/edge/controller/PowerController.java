@@ -1,4 +1,4 @@
-package com.hanium.edge.controller;
+/*package com.hanium.edge.controller;
 
 import com.hanium.edge.dto.power.PowerDTO;
 import com.hanium.edge.entity.PowerEntity;
@@ -41,5 +41,48 @@ public class PowerController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<PowerDTO> powerDTOs = powerService.getAllPowerEntitiesForUser(username);
         return ResponseEntity.ok(powerDTOs);
+    }
+}
+ */
+
+package com.hanium.edge.controller;
+
+import com.hanium.edge.dto.PowerDataDTO;
+import com.hanium.edge.dto.DailyPowerDataDTO;
+import com.hanium.edge.dto.MonthlyPowerSummaryDTO;
+import com.hanium.edge.service.PowerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/power")
+@RequiredArgsConstructor
+public class PowerController {
+
+    private final PowerService powerService;
+
+    @PostMapping("/data")
+    public ResponseEntity<?> receivePowerData(@RequestBody PowerDataDTO powerData) {
+        powerService.savePowerData(powerData);
+        return ResponseEntity.ok("Data saved successfully");
+    }
+
+    @GetMapping("/daily")
+    public ResponseEntity<DailyPowerDataDTO> getDailyPowerData(@RequestParam String date) {
+        DailyPowerDataDTO dailyData = powerService.getDailyPowerData(date);
+        return ResponseEntity.ok(dailyData);
+    }
+
+    @GetMapping("/monthly")
+    public ResponseEntity<MonthlyPowerSummaryDTO> getMonthlyPowerData(@RequestParam String month) {
+        MonthlyPowerSummaryDTO summary = powerService.getMonthlyPowerData(month);
+        return ResponseEntity.ok(summary);
+    }
+
+    @PostMapping("/control")
+    public ResponseEntity<?> controlLED(@RequestParam int ledNumber, @RequestParam String state) {
+        powerService.controlLED(ledNumber, state);
+        return ResponseEntity.ok("LED " + ledNumber + " is now " + state);
     }
 }

@@ -1,4 +1,4 @@
-package com.hanium.edge.service;
+/*package com.hanium.edge.service;
 
 import com.hanium.edge.dto.power.PowerDTO;
 import com.hanium.edge.entity.PowerEntity;
@@ -79,5 +79,76 @@ public class PowerService {
         return powerEntities.stream()
                 .map(power -> new PowerDTO(power.getId(), power.getPowerName(), power.isStatus()))
                 .collect(Collectors.toList());
+    }
+}
+*/
+package com.hanium.edge.service;
+
+import com.hanium.edge.dto.power.DailyPowerDataDTO;
+import com.hanium.edge.dto.DailyPowerDataDTO;
+import com.hanium.edge.dto.MonthlyPowerSummaryDTO;
+import com.hanium.edge.entity.LedStateEntity;
+import com.hanium.edge.entity.DailyPowerDataEntity;
+import com.hanium.edge.repository.LedStateRepository;
+import com.hanium.edge.repository.DailyPowerDataRepository;
+import com.hanium.edge.repository.MonthlyPowerDataRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class PowerService {
+
+    private final LedStateRepository ledStateRepository;
+    private final DailyPowerDataRepository dailyPowerDataRepository;
+    private final MonthlyPowerDataRepository monthlyPowerDataRepository;
+
+    public void savePowerData(PowerDataDTO powerData) {
+        // 현재 LED 상태 및 전력량 업데이트
+        LedStateEntity ledState = ledStateRepository.findByLedId(powerData.getLedNumber())
+                .orElse(new LedStateEntity(powerData.getLedNumber()));
+
+        ledState.setCurrentPower(powerData.getPower());
+        ledState.setState(powerData.isOn() ? "ON" : "OFF");
+        ledStateRepository.save(ledState);
+
+        // 일별 총 전력량 업데이트
+        DailyPowerDataEntity dailyData = dailyPowerDataRepository.findByDateAndLedId(powerData.getDate(), powerData.getLedNumber())
+                .orElse(new DailyPowerDataEntity(powerData.getDate(), powerData.getLedNumber()));
+
+        dailyData.addToDailyTotalPower(powerData.getPower());
+        dailyPowerDataRepository.save(dailyData);
+
+        // 모든 LED의 총 사용량 업데이트
+        dailyPowerDataRepository.updateTotalPowerForAllLeds(powerData.getDate());
+
+        // 월별 총 전력량 업데이트
+        monthlyPowerDataRepository.updateMonthlyTotalPower(powerData.getMonth(), dailyData.getDailyTotalPower());
+    }
+
+    public DailyPowerDataDTO getDailyPowerData(String date) {
+        List<DailyPowerDataEntity> ledData = dailyPowerDataRepository.findAllByDate(date);
+        float totalPowerAllLeds = dailyPowerDataRepository.getTotalPowerForAllLeds(date);
+        List<LedStateEntity> ledStates = ledStateRepository.findAllByDate(date);
+
+        return new DailyPowerDataDTO(ledStates, ledData, totalPowerAllLeds);
+    }
+
+    public MonthlyPowerSummaryDTO getMonthlyPowerData(String month) {
+        float monthlyTotalPower = monthlyPowerDataRepository.getMonthlyTotalPower(month);
+        return new MonthlyPowerSummaryDTO(month, monthlyTotalPower);
+    }
+
+    public void controlLED(int ledNumber, String state) {
+        LedStateEntity ledState = ledStateRepository.findByLedId(ledNumber)
+                .orElse(new LedStateEntity(ledNumber));
+
+        ledState.setState(state);
+        ledStateRepository.save(ledState);
+
+        // Here you can add the logic to send the command to the Arduino
+        // Example: sendCommandToArduino(ledNumber, state);
     }
 }
