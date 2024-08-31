@@ -20,7 +20,7 @@ public class PowerService {
 
     private final PowerRepository powerRepository;
     private final UserRepository userRepository;
-    private final String ESP32_URL = "http://192.168.45.111";  // ESP32의 IP 주소로 변경
+    private final String ESP32_URL = "http://172.20.10.10";  // ESP32의 IP 주소로 변경
 
     public String controlPower(String username, Long powerId, String state) {
         // 사용자 조회
