@@ -42,4 +42,9 @@ public class UserEntity {
     // 레벨
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private LevelEntity levelEntity;
+
+    // 전력 측정
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LedStateEntity> ledStateEntities;
+
 }
