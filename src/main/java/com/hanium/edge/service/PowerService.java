@@ -20,7 +20,7 @@ public class PowerService {
 
     private final PowerRepository powerRepository;
     private final UserRepository userRepository;
-    private final String ESP32_URL = "http://172.20.10.10";  // ESP32의 IP 주소로 변경
+    private final String ESP32_URL = "http://edge-power.duckdns.org";  // ESP32의 IP 주소로 변경
 
     public String controlPower(String username, Long powerId, String state) {
         // 사용자 조회
@@ -42,6 +42,7 @@ public class PowerService {
 
         // ESP32에 제어 신호 보내기
         String result = sendControlSignal(powerId, state);
+
         if (result.equals("success")) {
             // 전력 장치 상태 업데이트
             boolean status = "on".equalsIgnoreCase(state);
