@@ -2,6 +2,7 @@ package com.hanium.edge.service;
 
 import com.hanium.edge.dto.user.RegisterDTO;
 import com.hanium.edge.dto.user.UserResponseDTO;
+import com.hanium.edge.entity.PowerEntity;
 import com.hanium.edge.entity.UserEntity;
 import com.hanium.edge.exception.DuplicateUsernameException;
 import com.hanium.edge.repository.UserRepository;
@@ -9,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,4 +54,5 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자 정보를 찾을 수 없습니다."));
         userRepository.delete(user);
     }
+
 }

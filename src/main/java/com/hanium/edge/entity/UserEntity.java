@@ -34,4 +34,12 @@ public class UserEntity {
     // 광조도
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BrightnessEntity> brightnessData;
+
+    // 전력 제어
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PowerEntity> powerData;
+
+    // 레벨
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private LevelEntity levelEntity;
 }
